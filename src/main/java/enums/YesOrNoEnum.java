@@ -7,7 +7,7 @@ import lombok.Getter;
  * 使用场景：常用于数据库某些只有0和1这两个值的字段
  *
  * @author xujun
- * @version 1.0
+ * @version 1.1
  */
 @Getter
 public enum YesOrNoEnum {
@@ -55,5 +55,12 @@ public enum YesOrNoEnum {
             }
         }
         return null;
+    }
+
+    /**
+     * 校验code是否有效
+     */
+    public static boolean isValid(Integer code) {
+        return getByCode(code) != null;
     }
 }
