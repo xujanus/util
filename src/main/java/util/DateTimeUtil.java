@@ -7,15 +7,47 @@ import java.util.Date;
  * 日期、时间相关工具类型
  *
  * @author xujun
- * version: 1.0
+ * version: 1.1
  */
 public class DateTimeUtil {
+	/**
+	 * 获取一天的开始时刻
+	 * 业务场景：日历选择后作为筛选条件查询数据库
+	 */
+	public static Date getBeginDate(Date queryDate) {
+		LocalDateTime localDateTime = LocalDateTime.of(toLocalDate(queryDate), LocalTime.MIN);
+		return toDate(localDateTime);
+	}
+
+	/**
+	 * 获取一天的结束时刻
+	 * 业务场景：日历选择后作为筛选条件查询数据库
+	 */
+	public static Date getEndDate(Date queryDate) {
+		LocalDateTime localDateTime = LocalDateTime.of(toLocalDate(queryDate), LocalTime.MAX);
+		return toDate(localDateTime);
+	}
+
+	/**
+	 * 把ZonedDateTime类型转换成Date类型
+	 * 业务场景：类型转换
+	 */
+	public static Date toDate(ZonedDateTime zonedDateTime) {
+		return Date.from(zonedDateTime.toInstant());
+	}
+
+	/**
+	 * 把LocalDateTime类型转换成Date类型
+	 * 业务场景：类型转换
+	 */
+	public static Date toDate(LocalDateTime localDateTime) {
+		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+		return toDate(zonedDateTime);
+	}
 
 	/**
 	 * 把Date类型对象转换成ZonedDateTime类型对象
-	 *
-	 * @param date Date类型对象
-	 * @return ZonedDateTime 类型对象
+	 * 业务场景：类型转换
 	 */
 	public static ZonedDateTime toZonedDateTime(Date date) {
 		Instant instant = date.toInstant();
@@ -24,9 +56,7 @@ public class DateTimeUtil {
 
 	/**
 	 * 把Date类型对象转换成LocalDateTime类型对象
-	 *
-	 * @param date Date类型对象
-	 * @return LocalDateTime 类型对象
+	 * 业务场景：类型转换
 	 */
 	public static LocalDateTime toLocalDateTime(Date date) {
 		return toZonedDateTime(date).toLocalDateTime();
@@ -34,9 +64,7 @@ public class DateTimeUtil {
 
 	/**
 	 * 把Date类型对象转换成LocalDate类型对象
-	 *
-	 * @param date Date类型对象
-	 * @return LocalDate 类型对象
+	 * 业务场景：类型转换
 	 */
 	public static LocalDate toLocalDate(Date date) {
 		return toZonedDateTime(date).toLocalDate();
@@ -44,9 +72,7 @@ public class DateTimeUtil {
 
 	/**
 	 * 把Date类型对象转换成LocalTime类型对象
-	 *
-	 * @param date Date类型对象
-	 * @return LocalTime 类型对象
+	 * 业务场景：类型转换
 	 */
 	public static LocalTime toLocalTime(Date date) {
 		return toZonedDateTime(date).toLocalTime();
@@ -54,33 +80,10 @@ public class DateTimeUtil {
 
 	/**
 	 * 把Date类型对象转换成ZonedDateTime类型对象
-	 *
-	 * @param date Date类型对象
-	 * @return ZonedDateTime 类型对象
+	 * 业务场景：类型转换
 	 */
 	public static ZonedDateTime toDate(Date date) {
 		Instant instant = date.toInstant();
 		return instant.atZone(ZoneId.systemDefault());
-	}
-
-	/**
-	 * 把ZonedDateTime类型转换成Date类型
-	 *
-	 * @param zonedDateTime ZonedDateTime类型对象
-	 * @return Date类型对象
-	 */
-	public static Date toDate(ZonedDateTime zonedDateTime) {
-		return Date.from(zonedDateTime.toInstant());
-	}
-
-	/**
-	 * 把LocalDateTime类型转换成Date类型
-	 *
-	 * @param localDateTime LocalDateTime类型对象
-	 * @return Date类型对象
-	 */
-	public static Date toDate(LocalDateTime localDateTime) {
-		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
-		return toDate(zonedDateTime);
 	}
 }
